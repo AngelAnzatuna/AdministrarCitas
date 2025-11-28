@@ -27,10 +27,13 @@ const citaObj = {
 
 function datosCita(e) {
     citaObj[e.target.name] = e.target.value;
-    console.log(citaObj);
 }
 
 function submitCita(e) {
     e.preventDefault();
-    console.log('Submit al formulario...');
+    const {paciente, propietario, email, fecha, sintomas} = citaObj;
+    if(paciente.trim() === '' || propietario.trim() === '' || email.trim() === '') {
+        console.log('Paciente está vacio');
+        return;
+    }
 }
