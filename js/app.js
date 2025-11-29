@@ -128,11 +128,17 @@ function submitCita(e) {
         return;
     }
 
-    citas.agregar(citaObj);
+    citas.agregar({...citaObj});
 
     formulario.reset();
 
     reiniciarObjetoCita();
+
+    new Notificacion({
+        texto: 'Paciente Registrado',
+        tipo: 'exito'
+    })
+    return;
 }
 
 function reiniciarObjetoCita() {
