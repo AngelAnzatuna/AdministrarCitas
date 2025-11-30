@@ -6,10 +6,8 @@ const fechaInput = document.querySelector('#fecha');
 const sintomasInput = document.querySelector('#sintomas');
 
 const formulario = document.querySelector('#formulario-cita');
-
+const formularioInput = document.querySelector('#formulario-cita input[type="submit"]');
 const contenedorCitas = document.querySelector('#citas');
-
-const btnEditar = document.querySelector('.btn-editar');
 
 // Eventos
 pacienteInput.addEventListener('change', datosCita);
@@ -72,6 +70,11 @@ class AdminCitas {
 
     agregar(cita) {
         this.citas = [...this.citas, cita];
+        this.mostrar();
+    }
+
+    editar(citaActualizada) {
+        this.citas = this.citas.map( cita => cita.id === citaActualizada.id ? citaActualizada : cita);
         this.mostrar();
     }
 
@@ -153,18 +156,23 @@ function submitCita(e) {
     }
 
     if (editando) {
-        console.log('editando registro');
+        citas.editar({...citaObj});
+        new Notificacion({
+            texto: 'Guardado Correctamente',
+            tipo: 'exito'
+        })
     } else {
         citas.agregar({ ...citaObj });
         new Notificacion({
             texto: 'Paciente Registrado',
             tipo: 'exito'
         })
-        return;
     }
 
     formulario.reset();
     reiniciarObjetoCita();
+    formularioInput.value = 'Registrar Paciente';
+    editando = false;
 }
 
 function reiniciarObjetoCita() {
@@ -200,4 +208,6 @@ function cargarEdicion(cita) {
     sintomasInput.value = cita.sintomas;
 
     editando = true;
+
+    formularioInput.value = 'Guardar Cambios';
 }
